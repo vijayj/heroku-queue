@@ -40,6 +40,32 @@ public class Main {
             return new ModelAndView(attributes, "index.ftl");
         }, new FreeMarkerEngine());
 
+    get("/longjob", (request, response) -> {
+
+    Map<String, Object> attributes = new HashMap<>();
+
+    Send mq  = new Send();
+    String messageName = "long long job";
+    try {
+			mq.send(messageName);
+		} catch (Exception e) {
+
+       attributes.put("message", "There was an error: " + e);
+        return new ModelAndView(attributes, "error.ftl");
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+		}
+
+
+        ArrayList<String> output = new ArrayList<String>();
+        output.add("Message is sent:" + messageName);
+        attributes.put("results", output);
+
+        // attributes.put("message", response.toString());
+
+        return new ModelAndView(attributes, "db.ftl");
+    }, new FreeMarkerEngine());
+
     get("/db", (req, res) -> {
       Connection connection = null;
       Map<String, Object> attributes = new HashMap<>();
