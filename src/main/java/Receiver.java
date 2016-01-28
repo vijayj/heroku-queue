@@ -24,7 +24,6 @@ public class Receiver {
 		channel.queueDeclare(QUEUE_NAME, false, false, false, null);
 		System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
 
-		channel.basicQos(1);
 
 		Consumer consumer = new DefaultConsumer(channel) {
 			@Override
@@ -38,7 +37,6 @@ public class Receiver {
 					doWork(message);
 				} finally {
 					System.out.println(" [x] Done");
-					channel.basicAck(envelope.getDeliveryTag(), false);
 				}
 			}
 		};
